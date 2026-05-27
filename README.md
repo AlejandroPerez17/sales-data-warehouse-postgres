@@ -9,20 +9,23 @@ Implementación de un Data Warehouse para una empresa minorista de electrónica 
 ## Arquitectura
 
 **Star Schema** con una tabla de hechos (`FactSales`) y tres dimensiones:
-              ┌──────────────┐
-              │   DimDate    │
-              └──────┬───────┘
-                     │
-┌──────────────┐         │         ┌──────────────────────┐
-│  DimProduct  ├─────► FactSales ◄─┤ DimCustomerSegment   │
-└──────────────┘                   └──────────────────────┘
+
+```text
+                    ┌──────────────┐
+                    │   DimDate    │
+                    └──────┬───────┘
+                           │
+┌──────────────┐           ▼            ┌──────────────────────┐
+│  DimProduct  ├──────► FactSales ◄─────┤  DimCustomerSegment  │
+└──────────────┘                        └──────────────────────┘
+```
 
 | Tabla | Tipo | Filas |
 |---|---|---|
-| `DimDate` | Dimensión | ~ |
-| `DimProduct` | Dimensión | ~ |
-| `DimCustomerSegment` | Dimensión | ~ |
-| `FactSales` | Hechos | ~ |
+| `DimDate` | Dimensión | 350 |
+| `DimProduct` | Dimensión | 25 |
+| `DimCustomerSegment` | Dimensión | 19 |
+| `FactSales` | Hechos | 25 |
 
 ---
 
@@ -36,18 +39,19 @@ Implementación de un Data Warehouse para una empresa minorista de electrónica 
 ---
 
 ## Estructura del repositorio
+```text
 .
 ├── docker-compose.yml         # Postgres + pgAdmin
 ├── .env.example               # Plantilla de variables
 ├── DESIGN.md                  # Modelado dimensional documentado
-├── data/                      # CSVs source (no versionados)
+├── data/                      # CSVs source (no versionados — ver instrucciones)
 ├── sql/
 │   ├── 01-schema-practice.sql        # Schema inicial conceptual
 │   ├── 02-schema-pracproj.sql        # Schema operativo del DW
 │   ├── 03-queries.sql                # Agregaciones (grouping sets, rollup, cube)
 │   └── 04-materialized-view.sql      # Vista materializada max_sales
 └── screenshots/               # Evidencia de ejecución
-
+```
 ---
 
 ## Cómo levantar el proyecto
